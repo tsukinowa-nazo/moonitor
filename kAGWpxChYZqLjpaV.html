@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>moonitor モニター — 解説ページ</title>
+
+  <!-- 検索エンジン対策 -->
+  <!-- クローラーにインデックス・リンク追跡・キャッシュ保存をすべて禁止 -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+  <!-- Google専用（より確実に） -->
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <!-- Bing専用 -->
+  <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+  <!-- OGP・SNSプレビューを無効化（Twitterカード等でネタバレ内容が表示されないよう） -->
+  <meta name="twitter:card" content="summary">
+  <meta property="og:title" content="">
+  <meta property="og:description" content="">
+  <meta property="og:image" content="">
+  <!-- ページ説明をあえて空にしてスニペット生成を抑制 -->
+  <meta name="description" content="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;700&family=DM+Serif+Display:ital@0;1&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal-deep: #0a2a35;
+      --teal-mid: #0d4a5e;
+      --teal-bright: #1a7a96;
+      --teal-light: #4ab8d4;
+      --teal-pale: #a8dce8;
+      --accent-cyan: #00d4f0;
+      --accent-warm: #e8f4f8;
+      --bg-dark: #061820;
+      --bg-card: rgba(13, 74, 94, 0.25);
+      --border-glass: rgba(74, 184, 212, 0.2);
+      --text-primary: #e8f4f8;
+      --text-secondary: #9bcdd8;
+      --text-dim: #5a8a96;
+      --white: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ── 背景エフェクト ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(26,122,150,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 80%, rgba(10,42,53,0.4) 0%, transparent 60%),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 39px,
+          rgba(74,184,212,0.03) 39px,
+          rgba(74,184,212,0.03) 40px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 39px,
+          rgba(74,184,212,0.03) 39px,
+          rgba(74,184,212,0.03) 40px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── ヘクサゴン装飾 ── */
+    .hex-deco {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      opacity: 0.12;
+    }
+    .hex-deco svg { width: 100%; height: 100%; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      overflow: hidden;
+    }
+
+    .hero-visual {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      margin-bottom: 40px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px var(--border-glass),
+        0 20px 60px rgba(0,0,0,0.6),
+        0 0 80px rgba(0,212,240,0.08);
+      animation: heroFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .hero-visual img {
+      width: 100%;
+      display: block;
+      filter: brightness(0.9);
+    }
+
+    .hero-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(6,24,32,0.7) 100%);
+    }
+
+    .hero-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--teal-light);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(48px, 14vw, 80px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+    }
+
+    .hero-subtitle-jp {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--teal-pale);
+      letter-spacing: 0.2em;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.7s forwards;
+    }
+
+    .hero-meta {
+      font-size: 13px;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.9s forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION共通 ── */
+    .section {
+      padding: 80px 0;
+      border-top: 1px solid var(--border-glass);
+    }
+
+    .section-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      color: var(--teal-light);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--teal-light), transparent);
+      opacity: 0.4;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 32px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── SNSリンク ── */
+    .sns-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .sns-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      border: 1px solid;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sns-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .sns-btn:hover::before { opacity: 1; }
+    .sns-btn:hover { transform: translateY(-2px); }
+
+    .sns-btn-post {
+      background: linear-gradient(135deg, rgba(0,212,240,0.12), rgba(26,122,150,0.08));
+      border-color: rgba(0,212,240,0.4);
+      color: var(--accent-cyan);
+    }
+    .sns-btn-post::before {
+      background: linear-gradient(135deg, rgba(0,212,240,0.2), rgba(26,122,150,0.15));
+    }
+    .sns-btn-post:hover {
+      box-shadow: 0 0 20px rgba(0,212,240,0.2);
+    }
+
+    .sns-btn-official {
+      background: rgba(13,74,94,0.3);
+      border-color: var(--border-glass);
+      color: var(--teal-pale);
+    }
+    .sns-btn-official::before {
+      background: rgba(74,184,212,0.08);
+    }
+    .sns-btn-official:hover {
+      border-color: rgba(74,184,212,0.4);
+    }
+
+    .x-icon {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ── 解説トグル ── */
+    .spoiler-warning {
+      background: linear-gradient(135deg, rgba(26,122,150,0.15), rgba(10,42,53,0.3));
+      border: 1px solid rgba(0,212,240,0.25);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .spoiler-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .spoiler-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .toggle-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toggle-item {
+      border: 1px solid var(--border-glass);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .toggle-item.open {
+      border-color: rgba(0,212,240,0.3);
+      box-shadow: 0 0 20px rgba(0,212,240,0.06);
+    }
+
+    .toggle-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      gap: 16px;
+    }
+
+    .toggle-btn-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .toggle-step {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--teal-light);
+      background: rgba(74,184,212,0.1);
+      border: 1px solid rgba(74,184,212,0.25);
+      border-radius: 4px;
+      padding: 3px 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .toggle-title {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: 0.03em;
+    }
+
+    .toggle-arrow {
+      width: 20px;
+      height: 20px;
+      color: var(--text-dim);
+      flex-shrink: 0;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), color 0.3s;
+    }
+
+    .toggle-item.open .toggle-arrow {
+      transform: rotate(180deg);
+      color: var(--accent-cyan);
+    }
+
+    .toggle-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .toggle-item.open .toggle-body {
+      grid-template-rows: 1fr;
+    }
+
+    .toggle-body-inner {
+      overflow: hidden;
+    }
+
+    .toggle-content {
+      padding: 0 22px 22px 22px;
+      border-top: 1px solid var(--border-glass);
+      padding-top: 20px;
+      margin-top: 0;
+    }
+
+    .toggle-content p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.9;
+      margin-bottom: 12px;
+    }
+
+    .toggle-content p:last-child { margin-bottom: 0; }
+
+    .toggle-content h4 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 15px;
+      color: var(--teal-pale);
+      margin: 16px 0 8px;
+      padding-left: 12px;
+      border-left: 2px solid var(--teal-bright);
+    }
+
+    .toggle-content .highlight-box {
+      background: rgba(0,212,240,0.06);
+      border: 1px solid rgba(0,212,240,0.18);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin: 12px 0;
+      font-size: 13px;
+      color: var(--teal-pale);
+      line-height: 1.8;
+    }
+
+    /* ── クレジット ── */
+    .credit-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .credit-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(74,184,212,0.07);
+      align-items: baseline;
+    }
+
+    .credit-row:last-child { border-bottom: none; }
+
+    .credit-role {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .credit-name {
+      font-size: 14px;
+      color: var(--text-secondary);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── アンケート ── */
+    .survey-card {
+      background: linear-gradient(135deg, rgba(26,122,150,0.15) 0%, rgba(10,42,53,0.4) 100%);
+      border: 1px solid rgba(74,184,212,0.25);
+      border-radius: 16px;
+      padding: 36px;
+      text-align: center;
+    }
+
+    .survey-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.8;
+    }
+
+    .survey-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      background: linear-gradient(135deg, var(--teal-bright), var(--teal-mid));
+      border: none;
+      border-radius: 50px;
+      color: var(--white);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(26,122,150,0.4);
+    }
+
+    .survey-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(26,122,150,0.5);
+    }
+
+    /* ── フッター ── */
+    .footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border-glass);
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── スクロールフェードイン ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── デバイダー ── */
+    .hex-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 40px 0 0;
+      color: var(--text-dim);
+      font-size: 10px;
+      letter-spacing: 0.4em;
+    }
+    .hex-sym { font-size: 14px; color: var(--teal-light); }
+
+    @media (max-width: 480px) {
+      .sns-grid { grid-template-columns: 1fr; }
+      .credit-row { grid-template-columns: 1fr; gap: 4px; }
+      .survey-card { padding: 24px 20px; }
+      .toggle-btn { padding: 16px 16px; }
+      .toggle-content { padding: 0 16px 16px; padding-top: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ────────────── HERO ────────────── -->
+<div class="hero">
+  <div class="container" style="display:flex;flex-direction:column;align-items:center;">
+
+    <div class="hero-visual">
+      <!-- 公演ビジュアル画像をここに配置 -->
+      <!-- <img src="your-visual.jpg" alt="moonitor ビジュアル"> -->
+      <!-- ↓ 仮プレースホルダー（画像URLに差し替えてください） -->
+      <div style="background: linear-gradient(160deg, #0d4a5e 0%, #061820 100%); aspect-ratio: 3/4; display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:40px;">
+        <div style="font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.3em;color:var(--teal-light);">TSUKI NO WA</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:52px;color:white;line-height:0.9;">moonitor</div>
+        <div style="font-family:'Noto Serif JP',serif;font-size:16px;color:var(--teal-pale);letter-spacing:0.25em;">モニター</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--text-dim);text-align:center;line-height:1.8;">本日は実験にご協力いただき<br>誠にありがとうございます。</div>
+      </div>
+    </div>
+
+    <div class="hero-label">謎解き公演 — ツキノワ</div>
+    <h1 class="hero-title">moonitor</h1>
+    <div class="hero-subtitle-jp">モニター</div>
+    <div class="hero-meta">Mystery Event · 解説ページ</div>
+
+  </div>
+</div>
+
+<!-- ────────────── MAIN ────────────── -->
+<main>
+  <div class="container">
+
+    <!-- SNS -->
+    <section class="section fade-in">
+      <div class="section-label">Share & Follow</div>
+      <div class="section-title">感想・公式情報</div>
+      <div class="sns-grid">
+        <a href="https://x.com/intent/tweet?hashtags=moonitor_謎解き&text=【moonitor】の感想" target="_blank" rel="noopener" class="sns-btn sns-btn-post">
+          <svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.629L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+          </svg>
+          感想をポスト
+        </a>
+        <a href="https://x.com/tsuki_no_wa_" target="_blank" rel="noopener" class="sns-btn sns-btn-official">
+          <svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.629L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+          </svg>
+          公式アカウント
+        </a>
+      </div>
+    </section>
+
+    <!-- 解説 -->
+    <section class="section fade-in">
+      <div class="section-label">Walkthrough</div>
+      <div class="section-title">公演解説</div>
+
+      <div class="spoiler-warning">
+        <div class="spoiler-icon">⚠</div>
+        <div class="spoiler-text">
+          以下はネタバレを含む解説です。<br>
+          まだ公演に参加していない方はご注意ください。各項目は段階的に開いてお読みいただけます。
+        </div>
+      </div>
+
+      <div class="toggle-list" id="toggleList">
+
+        <!-- ① -->
+        <div class="toggle-item" data-index="0">
+          <button class="toggle-btn" onclick="toggleItem(0)">
+            <div class="toggle-btn-left">
+              <span class="toggle-step">STEP 01</span>
+              <span class="toggle-title">公演の概要・世界観</span>
+            </div>
+            <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="toggle-body">
+            <div class="toggle-body-inner">
+              <div class="toggle-content">
+                <p>
+                  『moonitor（モニター）』は、謎解き制作団体「ツキノワ」が手がけた体験型謎解き公演です。
+                  プレイヤーは「実験モニター」として謎の施設に招待され、用意された謎を解き進めていきます。
+                </p>
+                <h4>テーマ</h4>
+                <p>
+                  「見えているものが本当の姿か」をテーマに、観察・思考・協力をキーワードとした謎が展開されます。
+                  施設内に散らばる情報を集め、隠された真実へと近づいていくストーリーです。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ② -->
+        <div class="toggle-item" data-index="1">
+          <button class="toggle-btn" onclick="toggleItem(1)">
+            <div class="toggle-btn-left">
+              <span class="toggle-step">STEP 02</span>
+              <span class="toggle-title">クリアシステムの解説</span>
+            </div>
+            <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="toggle-body">
+            <div class="toggle-body-inner">
+              <div class="toggle-content">
+                <h4>透明化システム</h4>
+                <p>
+                  公演に登場する「クリアシステム」は、対象の生物・ものを実体は残したまま見かけ上透明化する装置です。
+                  透明化を成立させるには次の2つの条件を同時に満たす必要があります。
+                </p>
+                <div class="highlight-box">
+                  ① 対象の名称が書かれたリストバンドで、対象の一部が囲われていること<br>
+                  ② 対象に付けられたリストバンドと同色のカギがかけられたボックス内に、クリアボードが入っていること
+                </div>
+                <h4>リストバンドの特性</h4>
+                <p>
+                  リストバンドは同色のカギから10m以上離れると爆破し、無理に外そうとしても爆破します。
+                  リストバンドの外側に表示されているものが透明化の対象となります。
+                </p>
+                <h4>クリアボード</h4>
+                <p>
+                  「クリア」と書かれた特殊なボードで、世界に1つしか存在しません。
+                  このボードをカギ付きボックスに収めることでシステムが起動します。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ③ -->
+        <div class="toggle-item" data-index="2">
+          <button class="toggle-btn" onclick="toggleItem(2)">
+            <div class="toggle-btn-left">
+              <span class="toggle-step">STEP 03</span>
+              <span class="toggle-title">各謎の解法ヒント</span>
+            </div>
+            <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="toggle-body">
+            <div class="toggle-body-inner">
+              <div class="toggle-content">
+                <h4>謎①のヒント</h4>
+                <p>
+                  最初に渡されるリストバンドの色と、部屋に配置されたカギの色の対応関係に注目してください。
+                  色ごとに管理されたボックスを見つけることが最初のステップです。
+                </p>
+                <h4>謎②のヒント</h4>
+                <p>
+                  クリアボードを手に入れる前に、ボックスを開けるためのカギの番号を解読する必要があります。
+                  施設内の各所にある数字・記号の羅列が暗号のヒントになっています。
+                </p>
+                <div class="highlight-box">
+                  ボタンを赤いラインを超えるまで近づけてから押す、という手順を忘れずに！
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ④ -->
+        <div class="toggle-item" data-index="3">
+          <button class="toggle-btn" onclick="toggleItem(3)">
+            <div class="toggle-btn-left">
+              <span class="toggle-step">STEP 04</span>
+              <span class="toggle-title">最終謎・エンディングの解説</span>
+            </div>
+            <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="toggle-body">
+            <div class="toggle-body-inner">
+              <div class="toggle-content">
+                <h4>最終謎への道</h4>
+                <p>
+                  新情報解禁方法Aで手に入る情報と、クリアシステムの最後の成功条件を組み合わせることで、
+                  最後の謎を解くことができます。
+                </p>
+                <h4>エンディング</h4>
+                <p>
+                  全ての条件を揃えてクリアシステムを起動させることで、施設の隠された真実が明らかになります。
+                  モニターとして集められた本当の理由、そして「透明化」の真の目的とは——。
+                </p>
+                <div class="highlight-box">
+                  クリアおめでとうございます！<br>
+                  公演への参加、誠にありがとうございました。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /toggle-list -->
+    </section>
+
+    <!-- クレジット -->
+    <section class="section fade-in">
+      <div class="section-label">Credits</div>
+      <div class="section-title">制作クレジット</div>
+      <div class="credit-grid">
+        <div class="credit-row">
+          <span class="credit-role">制作・主催</span>
+          <span class="credit-name">ツキノワ</span>
+        </div>
+        <div class="credit-row">
+          <span class="credit-role">謎制作</span>
+          <span class="credit-name">（制作者名）</span>
+        </div>
+        <div class="credit-row">
+          <span class="credit-role">グラフィック</span>
+          <span class="credit-name">（デザイナー名）</span>
+        </div>
+        <div class="credit-row">
+          <span class="credit-role">3Dビジュアル</span>
+          <span class="credit-name">（担当者名）</span>
+        </div>
+        <div class="credit-row">
+          <span class="credit-role">運営スタッフ</span>
+          <span class="credit-name">（スタッフ名）</span>
+        </div>
+        <div class="credit-row">
+          <span class="credit-role">Special Thanks</span>
+          <span class="credit-name">ご参加いただいたすべての皆さまへ</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- アンケート -->
+    <section class="section fade-in">
+      <div class="section-label">Survey</div>
+      <div class="section-title">参加アンケート</div>
+      <div class="survey-card">
+        <p>
+          公演へのご参加ありがとうございました。<br>
+          皆さまのご感想・ご意見が次回公演の制作に活かされます。<br>
+          ぜひアンケートにご回答ください（所要時間：約3分）。
+        </p>
+        <a href="#" class="survey-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          アンケートに答える
+        </a>
+      </div>
+    </section>
+
+    <div class="hex-divider">
+      <span class="hex-sym">⬡</span>
+      <span>⬡</span>
+      <span class="hex-sym">⬡</span>
+    </div>
+
+  </div><!-- /container -->
+</main>
+
+<!-- フッター -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-logo">moonitor — モニター</div>
+    <div class="footer-copy">© ツキノワ All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  // ── トグル制御 ──
+  function toggleItem(index) {
+    const item = document.querySelector(`.toggle-item[data-index="${index}"]`);
+    const isOpen = item.classList.contains('open');
+    item.classList.toggle('open', !isOpen);
+  }
+
+  // ── スクロールフェードイン ──
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
