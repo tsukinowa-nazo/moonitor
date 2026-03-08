@@ -23,8 +23,8 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(4, 100px);
-            grid-template-rows: repeat(4, 100px);
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
             gap: 15px;
             background: #222;
             padding: 20px;
@@ -105,8 +105,22 @@
             width: 100px; height: 100px; cursor: pointer;
             border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
             transition: transform 0.05s;
+            position: relative;
+            overflow: hidden;
         }
         .cell:active { transform: scale(0.92); }
+
+        .cell-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 2rem;
+            user-select: none;
+            pointer-events: none;
+        }
 
         #message-area {
             margin-top: 40px; padding: 25px;
@@ -124,8 +138,8 @@
 
     <div id="confirm-modal" class="modal">
         <svg class="warning-svg" id="warning-icon" viewBox="0 0 100 100">
-            <path d="M50 5 L95 85 L5 85 Z" fill="#FFFF00" stroke="#000" stroke-width="8" stroke-linejoin="round"/>
-            <text x="50" y="70" font-family="Arial" font-size="50" font-weight="bold" text-anchor="middle" fill="#000">!</text>
+            <rect x="12" y="12" width="76" height="76" rx="8" ry="8" fill="#FFFF00" stroke="#000" stroke-width="8"/>
+            <text x="50" y="69" font-family="Arial" font-size="50" font-weight="bold" text-anchor="middle" fill="#000">!</text>
         </svg>
         <div>
             <div id="color-preview"></div> 
@@ -161,21 +175,14 @@
 
         const colors = [
             { name: "Lime",    code: "#00FF00" },
-            { name: "Pink",    code: "#FF69B4" },
-            { name: "White",   code: "#FFFFFF", msg: "鍵の暗証番号は2003" }, 
+            { name: "Orange",  code: "#FFA500" },
+            { name: "White",   code: "#FFFFFF" }, 
             { name: "Aqua",    code: "#00FFFF" },
-            { name: "Gray",   code: "#888888" }, 
-            { name: "Blue",    code: "#0000FF", msg: "モニターに向かって「オープン」と叫ぶ" }, 
+            { name: "Blue",    code: "#0000FF", msg: "「オープン」と叫ぶ" }, 
             { name: "Purple",  code: "#8A2BE2" },
-            { name: "Spring",  code: "#00FF7F" },
+            { name: "Green",  code: "#008000" },
             { name: "Magenta", code: "#FF00FF" },
-            { name: "D-Green", code: "#005344" }, 
-            { name: "Red",     code: "#FF0000", msg: "研究員に「くらげ」と伝える" }, 
-            { name: "SkyBlue", code: "#87CEEB" },
-            { name: "L-Salmon", code: "#FFA07A" }, // 4段目1番目: #FFA07Aに変更
-            { name: "Mauve",   code: "#B48395" }, 
-            { name: "Teal",    code: "#008080" }, 
-            { name: "Black",   code: "#000000" }
+            { name: "Red",     code: "#FF0000", msg: "研究員に「くらげ」と伝える" }
         ];
 
         const grid = document.getElementById('colorGrid');
@@ -187,11 +194,27 @@
         const preview = document.getElementById('color-preview');
         const warningIcon = document.getElementById('warning-icon');
 
-        colors.forEach(color => {
+        function getTextColorForBg(hex) {
+            const c = (hex || '').replace('#','');
+            if (c.length !== 6) return '#fff';
+            const r = parseInt(c.substring(0,2),16);
+            const g = parseInt(c.substring(2,4),16);
+            const b = parseInt(c.substring(4,6),16);
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+            return brightness > 128 ? '#000' : '#fff';
+        }
+
+        colors.forEach((color, idx) => {
             const div = document.createElement('div');
             div.className = 'cell';
             div.style.backgroundColor = color.code;
             if(color.code === "#FFFFFF" || color.code === "#FFE4CD") div.style.borderColor = "#bbb";
+
+            const label = document.createElement('span');
+            label.className = 'cell-label';
+            label.innerText = String(idx + 1);
+            label.style.color = getTextColorForBg(color.code);
+            div.appendChild(label);
 
             div.onclick = (e) => {
                 if (isLocked) return;
@@ -220,7 +243,7 @@
         };
 
         warningIcon.onclick = () => {
-            if (seenMessages.has("White") && seenMessages.has("Blue") && seenMessages.has("Red")) {
+            if (seenMessages.has("Blue") && seenMessages.has("Red")) {
                 confirmModal.style.display = "none"; 
                 hintModal.style.display = "block";
             }
