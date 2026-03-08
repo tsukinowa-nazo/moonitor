@@ -131,14 +131,6 @@
     .hero-visual img {
       width: 100%;
       display: block;
-      filter: brightness(0.9);
-    }
-
-    .hero-visual::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent 60%, rgba(6,24,32,0.7) 100%);
     }
 
     .hero-label {
@@ -571,18 +563,10 @@
       <!-- 公演ビジュアル画像をここに配置 -->
       <!-- <img src="your-visual.jpg" alt="moonitor ビジュアル"> -->
       <!-- ↓ 仮プレースホルダー（画像URLに差し替えてください） -->
-      <div style="background: linear-gradient(160deg, #0d4a5e 0%, #061820 100%); aspect-ratio: 3/4; display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:40px;">
-        <div style="font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.3em;color:var(--teal-light);">TSUKI NO WA</div>
-        <div style="font-family:'DM Serif Display',serif;font-size:52px;color:white;line-height:0.9;">moonitor</div>
-        <div style="font-family:'Noto Serif JP',serif;font-size:16px;color:var(--teal-pale);letter-spacing:0.25em;">モニター</div>
-        <div style="margin-top:8px;font-size:12px;color:var(--text-dim);text-align:center;line-height:1.8;">本日は実験にご協力いただき<br>誠にありがとうございます。</div>
-      </div>
+      <img src="images/moonitor_logo_ver1.2.png" alt="moonitor ビジュアル">
     </div>
-
-    <div class="hero-label">謎解き公演 — ツキノワ</div>
     <h1 class="hero-title">moonitor</h1>
-    <div class="hero-subtitle-jp">モニター</div>
-    <div class="hero-meta">Mystery Event · 解説ページ</div>
+    <div class="hero-subtitle-jp">解説ページ</div>
 
   </div>
 </div>
@@ -593,16 +577,16 @@
 
     <!-- SNS -->
     <section class="section fade-in">
-      <div class="section-label">Share & Follow</div>
+      <!-- <div class="section-label">Share & Follow</div> -->
       <div class="section-title">感想・公式情報</div>
       <div class="sns-grid">
-        <a href="https://x.com/intent/tweet?hashtags=moonitor_謎解き&text=【moonitor】の感想" target="_blank" rel="noopener" class="sns-btn sns-btn-post">
+        <a href="https://x.com/intent/tweet?text=【ここに感想を記入】%0a&hashtags=ツキノワモニター&hashtags=ツキノワ" target="_blank" rel="noopener" class="sns-btn sns-btn-post">
           <svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.629L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
           </svg>
           感想をポスト
         </a>
-        <a href="https://x.com/tsuki_no_wa_" target="_blank" rel="noopener" class="sns-btn sns-btn-official">
+        <a href="https://x.com/tsukinowa_nazo" target="_blank" rel="noopener" class="sns-btn sns-btn-official">
           <svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.629L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
           </svg>
@@ -611,16 +595,35 @@
       </div>
     </section>
 
+    <!-- アンケート -->
+    <section class="section fade-in">
+      <!-- <div class="section-label">Survey</div> -->
+      <div class="section-title">参加アンケート</div>
+      <div class="survey-card">
+        <p>
+          公演へのご参加ありがとうございました。<br>
+          皆さまのご感想・ご意見が次回公演の制作に活かされます。<br>
+          ぜひアンケートにご回答ください。
+        </p>
+        <a href="#" class="survey-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          アンケートに答える
+        </a>
+      </div>
+    </section>
+
     <!-- 解説 -->
     <section class="section fade-in">
-      <div class="section-label">Walkthrough</div>
+      <!-- <div class="section-label">Walkthrough</div> -->
       <div class="section-title">公演解説</div>
 
       <div class="spoiler-warning">
         <div class="spoiler-icon">⚠</div>
         <div class="spoiler-text">
           以下はネタバレを含む解説です。<br>
-          まだ公演に参加していない方はご注意ください。各項目は段階的に開いてお読みいただけます。
+          各項目は段階的に開いてお読みいただけます。
         </div>
       </div>
 
@@ -748,10 +751,6 @@
                   全ての条件を揃えてクリアシステムを起動させることで、施設の隠された真実が明らかになります。
                   モニターとして集められた本当の理由、そして「透明化」の真の目的とは——。
                 </p>
-                <div class="highlight-box">
-                  クリアおめでとうございます！<br>
-                  公演への参加、誠にありがとうございました。
-                </div>
               </div>
             </div>
           </div>
@@ -762,54 +761,37 @@
 
     <!-- クレジット -->
     <section class="section fade-in">
-      <div class="section-label">Credits</div>
+      <!-- <div class="section-label">Credits</div> -->
       <div class="section-title">制作クレジット</div>
       <div class="credit-grid">
         <div class="credit-row">
-          <span class="credit-role">制作・主催</span>
-          <span class="credit-name">ツキノワ</span>
+          <span class="credit-role">制作総指揮</span>
+          <span class="credit-name">junjun</span>
+        </div>
+        <div class="credit-row">
+          <span class="credit-role">制作進行</span>
+          <span class="credit-name">つきみ</span>
         </div>
         <div class="credit-row">
           <span class="credit-role">謎制作</span>
-          <span class="credit-name">（制作者名）</span>
+          <span class="credit-name">火楸</span>
         </div>
         <div class="credit-row">
-          <span class="credit-role">グラフィック</span>
-          <span class="credit-name">（デザイナー名）</span>
+          <span class="credit-role">メインビジュアル</span>
+          <span class="credit-name">ふぁしおん</span>
         </div>
         <div class="credit-row">
-          <span class="credit-role">3Dビジュアル</span>
-          <span class="credit-name">（担当者名）</span>
+          <span class="credit-role">システム</span>
+          <span class="credit-name">sigma・火楸</span>
         </div>
         <div class="credit-row">
-          <span class="credit-role">運営スタッフ</span>
-          <span class="credit-name">（スタッフ名）</span>
-        </div>
-        <div class="credit-row">
-          <span class="credit-role">Special Thanks</span>
-          <span class="credit-name">ご参加いただいたすべての皆さまへ</span>
+          <span class="credit-role">物品制作</span>
+          <span class="credit-name">ふじ</span>
         </div>
       </div>
     </section>
 
-    <!-- アンケート -->
-    <section class="section fade-in">
-      <div class="section-label">Survey</div>
-      <div class="section-title">参加アンケート</div>
-      <div class="survey-card">
-        <p>
-          公演へのご参加ありがとうございました。<br>
-          皆さまのご感想・ご意見が次回公演の制作に活かされます。<br>
-          ぜひアンケートにご回答ください（所要時間：約3分）。
-        </p>
-        <a href="#" class="survey-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
-          </svg>
-          アンケートに答える
-        </a>
-      </div>
-    </section>
+
 
     <div class="hex-divider">
       <span class="hex-sym">⬡</span>
@@ -823,7 +805,7 @@
 <!-- フッター -->
 <footer class="footer">
   <div class="container">
-    <div class="footer-logo">moonitor — モニター</div>
+    <div class="footer-logo">moonitor</div>
     <div class="footer-copy">© ツキノワ All rights reserved.</div>
   </div>
 </footer>
