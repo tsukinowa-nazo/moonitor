@@ -38,6 +38,7 @@
       --text-secondary: #9bcdd8;
       --text-dim: #5a8a96;
       --white: #ffffff;
+      --explain-text: var(--white);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -400,7 +401,7 @@
 
     .toggle-content p {
       font-size: 14px;
-      color: var(--text-secondary);
+      color: var(--explain-text);
       line-height: 1.9;
       margin-bottom: 12px;
     }
@@ -426,6 +427,63 @@
       color: var(--teal-pale);
       line-height: 1.8;
     }
+
+    /* sub-details for long explanation paragraphs */
+    .sub-toggle {
+      background: rgba(13,74,94,0.06);
+      border: 1px solid rgba(74,184,212,0.06);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: box-shadow 0.18s ease;
+    }
+    .sub-toggle summary {
+      cursor: pointer;
+      padding: 10px 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      list-style: none;
+      outline: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    /* hide default marker */
+    .sub-toggle summary::-webkit-details-marker { display: none; }
+    .sub-toggle summary::marker { content: none; }
+    /* custom arrow */
+    .sub-toggle summary::after {
+      content: '\25BE';
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      transition: transform 0.18s ease;
+      transform-origin: center;
+    }
+    .sub-toggle[open] summary::after { transform: rotate(180deg); color: var(--accent-cyan); }
+    .sub-toggle[open] { box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
+    .sub-toggle .sub-content { padding: 12px 14px 16px 14px; color: var(--explain-text); }
+
+    /* 説明内マップ画像 */
+    .explain-img {
+      width: 50%;
+      max-width: 50%;
+      height: auto;
+      display: block;
+      margin: 12px auto;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+    .explain-img-full {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 12px auto;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+    .sub-toggle .sub-content p { margin: 0 0 10px 0; }
 
     /* ── クレジット ── */
     .credit-grid {
@@ -595,6 +653,7 @@
       </div>
     </section>
 
+    
     <!-- アンケート -->
     <section class="section fade-in">
       <!-- <div class="section-label">Survey</div> -->
@@ -602,10 +661,9 @@
       <div class="survey-card">
         <p>
           公演へのご参加ありがとうございました。<br>
-          皆さまのご感想・ご意見が次回公演の制作に活かされます。<br>
           ぜひアンケートにご回答ください。
         </p>
-        <a href="#" class="survey-btn">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSe0NeoieXKSYt2duFe6Yp12LPznJOYKsCTkZjTqN84QNqdVgg/viewform" class="survey-btn" target="_blank" rel="noopener">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
           </svg>
@@ -628,13 +686,10 @@
       </div>
 
       <div class="toggle-list" id="toggleList">
-
-        <!-- ① -->
         <div class="toggle-item" data-index="0">
           <button class="toggle-btn" onclick="toggleItem(0)">
             <div class="toggle-btn-left">
-              <span class="toggle-step">STEP 01</span>
-              <span class="toggle-title">公演の概要・世界観</span>
+              <span class="toggle-title">1.</span>
             </div>
             <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"/>
@@ -644,25 +699,21 @@
             <div class="toggle-body-inner">
               <div class="toggle-content">
                 <p>
-                  『moonitor（モニター）』は、謎解き制作団体「ツキノワ」が手がけた体験型謎解き公演です。
-                  プレイヤーは「実験モニター」として謎の施設に招待され、用意された謎を解き進めていきます。
-                </p>
-                <h4>テーマ</h4>
-                <p>
-                  「見えているものが本当の姿か」をテーマに、観察・思考・協力をキーワードとした謎が展開されます。
-                  施設内に散らばる情報を集め、隠された真実へと近づいていくストーリーです。
-                </p>
+                  　ツキノワラボの発明品「クリアシステム」を活用しながら、様々な謎を解き進め、ついにテストの合格条件を知ることができました。<br>
+                  <img src="images/last.png" alt="合格条件" class="explain-img">
+                  　テストの合格条件は「部屋にいる全員をカメラに映す」というもの。早速、クリアボードをボックスから取り出して、プレイヤー全員と研究員Aの透明化を解除しましょう！<br>
+                  　......しかし、部屋にいる4人をカメラに映しても合格とは判定されませんでした。</p><p>
+                  　合格しないということは、部屋の中にいる全員がカメラに映っていないということになります。もしかしたら、部屋の中に透明化している人がいるのかもしれません。</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ② -->
+
         <div class="toggle-item" data-index="1">
           <button class="toggle-btn" onclick="toggleItem(1)">
             <div class="toggle-btn-left">
-              <span class="toggle-step">STEP 02</span>
-              <span class="toggle-title">クリアシステムの解説</span>
+              <span class="toggle-title">2.</span>
             </div>
             <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"/>
@@ -671,36 +722,24 @@
           <div class="toggle-body">
             <div class="toggle-body-inner">
               <div class="toggle-content">
-                <h4>透明化システム</h4>
                 <p>
-                  公演に登場する「クリアシステム」は、対象の生物・ものを実体は残したまま見かけ上透明化する装置です。
-                  透明化を成立させるには次の2つの条件を同時に満たす必要があります。
+                  　一体、どのようにして透明化しているのでしょうか。<br>
+                  　透明化するためには、少なくともクリアボードがボックスの中に入っている必要があります。しかし、先ほどクリアボードをボックスから取り出したばかりなので、何も透明化されないはずです。
                 </p>
-                <div class="highlight-box">
-                  ① 対象の名称が書かれたリストバンドで、対象の一部が囲われていること<br>
-                  ② 対象に付けられたリストバンドと同色のカギがかけられたボックス内に、クリアボードが入っていること
-                </div>
-                <h4>リストバンドの特性</h4>
                 <p>
-                  リストバンドは同色のカギから10m以上離れると爆破し、無理に外そうとしても爆破します。
-                  リストバンドの外側に表示されているものが透明化の対象となります。
-                </p>
-                <h4>クリアボード</h4>
-                <p>
-                  「クリア」と書かれた特殊なボードで、世界に1つしか存在しません。
-                  このボードをカギ付きボックスに収めることでシステムが起動します。
+                  　クリアボードはどのボックスにも入っていませんが、この部屋の中にあるのは確かです。<br>
+                  　ここで発想の転換をし、「実はこの研究所全体もボックスなのではないか」と考えてみましょう。ボックスの中にクリアボードは入っていますし、実験を始める前に研究員Bがカギを取り付けていました。また、「研究所内にいる人は皆リストバンドを付けている」とも書かれています。確かに透明化の条件を満たしていそうです。
+                  <img src="images/listband.png" alt="リストバンド" class="explain-img-full">
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ③ -->
         <div class="toggle-item" data-index="2">
           <button class="toggle-btn" onclick="toggleItem(2)">
             <div class="toggle-btn-left">
-              <span class="toggle-step">STEP 03</span>
-              <span class="toggle-title">各謎の解法ヒント</span>
+              <span class="toggle-title">3.</span>
             </div>
             <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"/>
@@ -709,30 +748,24 @@
           <div class="toggle-body">
             <div class="toggle-body-inner">
               <div class="toggle-content">
-                <h4>謎①のヒント</h4>
                 <p>
-                  最初に渡されるリストバンドの色と、部屋に配置されたカギの色の対応関係に注目してください。
-                  色ごとに管理されたボックスを見つけることが最初のステップです。
+                  　研究所にいる誰かの透明化を解除したいですが、透明化を解除するには、クリアボードをボックスの外に出す必要があります。研究所には隙間一つ空いていなさそうなので、扉のカギを開けて部屋の外に出すことを目標としましょう。
                 </p>
-                <h4>謎②のヒント</h4>
                 <p>
-                  クリアボードを手に入れる前に、ボックスを開けるためのカギの番号を解読する必要があります。
-                  施設内の各所にある数字・記号の羅列が暗号のヒントになっています。
+                  　カギの解錠方法は、カギの色が分かればタブレットで知ることができます。つまり、扉に付いているカギの色さえ分かれば全て解決しそうです。
                 </p>
-                <div class="highlight-box">
-                  ボタンを赤いラインを超えるまで近づけてから押す、という手順を忘れずに！
-                </div>
+                <p>
+                  　扉に付いているカギの色は外に出れば見れますが、そもそも外に出ることが目的なので、このままでは堂々巡りとなってしまいます。部屋から出ることなくカギの色を知る方法を考えることにしましょう。
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ④ -->
         <div class="toggle-item" data-index="3">
           <button class="toggle-btn" onclick="toggleItem(3)">
             <div class="toggle-btn-left">
-              <span class="toggle-step">STEP 04</span>
-              <span class="toggle-title">最終謎・エンディングの解説</span>
+              <span class="toggle-title">4.</span>
             </div>
             <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"/>
@@ -741,22 +774,117 @@
           <div class="toggle-body">
             <div class="toggle-body-inner">
               <div class="toggle-content">
-                <h4>最終謎への道</h4>
                 <p>
-                  新情報解禁方法Aで手に入る情報と、クリアシステムの最後の成功条件を組み合わせることで、
-                  最後の謎を解くことができます。
+                  　こんな時に役に立つのが「クリアシステム」でした。これを使って扉を透明化すれば、部屋の中からカギの色を見ることができそうです。<br>
+                  　対象を透明化するには「リストバンドの外側に見えている文字 と 対象の名称 を一致させる」必要があります。今は扉を透明化したいので、「トビラ」や「ドア」と書かれたリストバンドがあれば良さそうです。しかし、皆さんの手元には「ヒト」と書かれたリストバンドしかありません。
                 </p>
-                <h4>エンディング</h4>
                 <p>
-                  全ての条件を揃えてクリアシステムを起動させることで、施設の隠された真実が明らかになります。
-                  モニターとして集められた本当の理由、そして「透明化」の真の目的とは——。
+                  　ここで、実験室MAPを見ると、実験室のドアは「戸」と呼称されていました。確かに研究員は「戸にカギをかけてください」などとも発言しています。<br>
+                  <img src="images/map.png" alt="マップ" class="explain-img">
+                  　リストバンドを「ヒ」が隠れるまで細く巻くことで、外側に「ト」だけが見えているリストバンドを作り出すことができそうです。戸にリストバンドを巻き、クリアボードを赤いカギがついた箱に入れることで、無事に戸を透明化することができました。
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-      </div><!-- /toggle-list -->
+        <div class="toggle-item" data-index="4">
+          <button class="toggle-btn" onclick="toggleItem(4)">
+            <div class="toggle-btn-left">
+              <span class="toggle-title">5.</span>
+            </div>
+            <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="toggle-body">
+            <div class="toggle-body-inner">
+              <div class="toggle-content">
+                <p>
+                  　しかし、皆さんから見ると、戸は透明になりませんでした。<br>
+                  　そういえば、皆さんがお互いを視認できたように、同じ色のリストバンドをつけたもの同士は、互いに視認することができました。戸に巻いたリストバンドは赤色のものなので、皆さんが戸が透明化している様子を直接見ることは不可能です。
+                  <img src="images/eachother.png" alt="見え方" class="explain-img">
+                </p>
+                <p>
+                  　ここで、今までの経験を振り返り、カメラを通してなら透明化している様子を確認できることに気づく必要がありました。確かに、途中のカメラ映像では自分たちが透明化している様子が映し出されており、皆さんはそれを見ていたはずです。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-item" data-index="5">
+          <button class="toggle-btn" onclick="toggleItem(5)">
+            <div class="toggle-btn-left">
+              <span class="toggle-title">6.</span>
+            </div>
+            <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="toggle-body">
+            <div class="toggle-body-inner">
+              <div class="toggle-content">
+                <p>
+                  　カメラ映像は情報を解禁する時にモニターに映し出されるので、新たな情報を解禁すれば良さそうです。<br>
+                  　机の上には緑の線がありませんが、机の下の床を見ると緑色の養生テープが貼られています。あと1問解けば床の線を超えることができそうです。
+                </p>
+                <p>
+                  　0,1,3,4人でこれまでの謎を解いたため、これ以外の人数をカメラに映さなければいけません。そういえば、戸の先には研究員Bが待機しています。戸にリストバンドを巻いた状態で赤のボックスにクリアボードを入れることで、皆さんと戸が透明になり、カメラに映る人数を研究員Aと研究員Bの2人にすることができます。<br>
+                  <img src="images/nazo4.png" alt="謎4" class="explain-img">
+                  　カメラに映る人数が”2”になることで、謎4は答えが「きたかた」となります。謎に答えることで、ボタンが進み、ボタンが床の線を超えました。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-item" data-index="6">
+          <button class="toggle-btn" onclick="toggleItem(6)">
+            <div class="toggle-btn-left">
+              <span class="toggle-title">7.</span>
+            </div>
+            <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="toggle-body">
+            <div class="toggle-body-inner">
+              <div class="toggle-content">
+                <p>
+                  　新情報と共にカメラの映像が映し出され、戸につけられたカギが黄色であることが分かります。<br>
+                  　タブレットには黄色のパネルが無いように見えますが、パネルをタップした時に出てくるポップアップに黄色のパネルがありました。これをタップすることで、戸に向かって『クリア』と叫ぶことでカギが開くことが分かりました。
+                  <img src="images/tablet.png" alt="タブレット" class="explain-img">
+                  <img src="images/tablet-yellow.png" alt="タブレット-黄色" class="explain-img">
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-item" data-index="7">
+          <button class="toggle-btn" onclick="toggleItem(7)">
+            <div class="toggle-btn-left">
+              <span class="toggle-title">8.</span>
+            </div>
+            <svg class="toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="toggle-body">
+            <div class="toggle-body-inner">
+              <div class="toggle-content">
+                <p>
+                  　カギを開けクリアボードを外に出して部屋に戻ると、黄色いリストバンドをつけた人がいます。どうやら責任者が黄色のリストバンドを付けていたようです。  
+                </p>
+                <p>
+                  　これで無事に判定が行われ、テストに合格することができました。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- クレジット -->
@@ -773,6 +901,10 @@
           <span class="credit-name">つきみ</span>
         </div>
         <div class="credit-row">
+          <span class="credit-role">構成</span>
+          <span class="credit-name">junjun　/　つきみ　/　sigma　/　ふぁしおん　/　ふじ　/　火楸</span>
+        </div>
+        <div class="credit-row">
           <span class="credit-role">謎制作</span>
           <span class="credit-name">火楸</span>
         </div>
@@ -781,12 +913,20 @@
           <span class="credit-name">ふぁしおん</span>
         </div>
         <div class="credit-row">
+          <span class="credit-role">デザイン</span>
+          <span class="credit-name">sigma</span>
+        </div>
+        <div class="credit-row">
           <span class="credit-role">システム</span>
-          <span class="credit-name">sigma・火楸</span>
+          <span class="credit-name">つきみ　/　sigma　/　火楸</span>
+        </div>
+        <div class="credit-row">
+          <span class="credit-role">演出・映像</span>
+          <span class="credit-name">つきみ　/　sigma</span>
         </div>
         <div class="credit-row">
           <span class="credit-role">物品制作</span>
-          <span class="credit-name">ふじ</span>
+          <span class="credit-name">junjun　/　sigma　/　ふじ</span>
         </div>
       </div>
     </section>
